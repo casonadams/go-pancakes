@@ -9,11 +9,10 @@ import (
 func main() {
 	input := []string{"-", "+", "-", "-", "-", "+", "-", "+", "+", "-", "-", "+", "+"}
 
-	guy := waiter.NewWaiter()
-	output, err := guy.Organize(input)
+	w := waiter.NewWaiter()
+	flipCount, _, err := w.Organize(input)
 	if err != nil {
 		fmt.Println(err)
 	}
-
-	fmt.Printf("Number of flips:\t%v\n", output)
+	fmt.Printf("Number of flips:\t%v\n", flipCount)
 }
