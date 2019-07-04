@@ -16,10 +16,12 @@ func NewWaiter() *Waiter {
 }
 
 // Organize flips all pancakes to be happy face up adhearing to physical bounds of pancake flipping
+// TODO: change the order of the pancake stack
 func (w *Waiter) Organize(s []string) (int, []string, error) {
 	w.flipCount = 0
 	var err error
 	// Starting at base of stack look for elements that require attention
+	// base of stack is thought of as the start of the slice
 	for i, v := range s {
 		if v == "-" {
 			// Be smart about flipping by checking top layer before flip
@@ -41,6 +43,7 @@ func (w *Waiter) Organize(s []string) (int, []string, error) {
 }
 
 // Start at top of stack and look for elements that require attention
+// top of stack is thought of as the end of the slice
 func (w *Waiter) setupTopOfStack(s []string, i int) []string {
 	tc := 0
 	for i := len(s) - 1; i >= i; i-- {
