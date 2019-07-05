@@ -17,7 +17,6 @@ func NewWaiter() *Waiter {
 }
 
 // Organize flips all pancakes to be happy face up adhearing to physical bounds of pancake flipping
-// TODO: change the order of the pancake stack
 func (w *Waiter) Organize(s string) (int, []string, error) {
 	// Convert string to slice for convience
 	arry := strings.Split(s, "")

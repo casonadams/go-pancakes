@@ -6,7 +6,6 @@ import (
 	waiter "github.com/casonadams/go-pancakes/waiter"
 )
 
-// TODO: add features to take a string or read from a file from commandline
 func main() {
 	var inputtest = []struct {
 		input  string
