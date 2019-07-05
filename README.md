@@ -1,5 +1,11 @@
 # go-pancakes
 
+## Example
+
+```bash
+go run main.go
+```
+
 ## Tests
 
 ### Unit

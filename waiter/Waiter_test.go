@@ -7,25 +7,25 @@ import (
 	waiter "github.com/casonadams/go-pancakes/waiter"
 )
 
-func getRandomData(s int) []string {
+func getRandomData(s int) string {
 	options := []string{"-", "+"}
-	slice := []string{options[rand.Intn(len(options))]}
+	var stack string
 	for i := 0; i < s; i++ {
-		slice = append(slice, options[rand.Intn(len(options))])
+		stack += options[rand.Intn(len(options))]
 	}
-	return slice
+	return stack
 }
 
 func TestInputs(t *testing.T) {
 	var inputtest = []struct {
-		input  []string
+		input  string
 		output int
 	}{
-		{[]string{"-"}, 1},
-		{[]string{"-", "+"}, 2},
-		{[]string{"+", "-"}, 1},
-		{[]string{"+", "+", "+"}, 0},
-		{[]string{"-", "-", "+", "-"}, 3},
+		{"-", 1},    // Case #1
+		{"-+", 1},   // Case #2
+		{"+-", 2},   // Case #3
+		{"+++", 0},  // Case #4
+		{"--+-", 3}, // Case #5
 	}
 	w := waiter.NewWaiter()
 
@@ -43,7 +43,7 @@ func TestInputs(t *testing.T) {
 }
 
 func TestLargeInput(t *testing.T) {
-	slice := getRandomData(10000)
+	slice := getRandomData(100)
 
 	w := waiter.NewWaiter()
 	_, stack, err := w.Organize(slice)
@@ -58,7 +58,7 @@ func TestLargeInput(t *testing.T) {
 }
 
 func BenchmarkWaiterFlip(b *testing.B) {
-	slice := getRandomData(10000)
+	slice := getRandomData(100)
 
 	w := waiter.NewWaiter()
 	b.ResetTimer()

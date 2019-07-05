@@ -3,6 +3,7 @@ package waiter
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 // Waiter allows access to the flip count
@@ -17,19 +18,26 @@ func NewWaiter() *Waiter {
 
 // Organize flips all pancakes to be happy face up adhearing to physical bounds of pancake flipping
 // TODO: change the order of the pancake stack
-func (w *Waiter) Organize(s []string) (int, []string, error) {
+func (w *Waiter) Organize(s string) (int, []string, error) {
+	// Convert string to slice for convience
+	arry := strings.Split(s, "")
+
+	// Make sure the data is handled right to left. (backwards to how I think about it)
+	arry = w.reverse(arry)
+
 	w.flipCount = 0
 	var err error
+
 	// Starting at base of stack look for elements that require attention
 	// base of stack is thought of as the start of the slice
-	for i, v := range s {
+	for i, v := range arry {
 		if v == "-" {
 			// Be smart about flipping by checking top layer before flip
-			s = w.setupTopOfStack(s, i)
+			arry = w.setupTopOfStack(arry, i)
 
-			ts := w.flip(s[i:])
-			bs := s[:i]
-			s = w.appendTo(bs, ts)
+			ts := w.flip(arry[i:])
+			bs := arry[:i]
+			arry = w.appendTo(bs, ts)
 		} else if v == "+" {
 			// Do Nothing
 		} else {
@@ -39,7 +47,7 @@ func (w *Waiter) Organize(s []string) (int, []string, error) {
 			return 0, []string{}, err
 		}
 	}
-	return w.flipCount, s, err
+	return w.flipCount, arry, err
 }
 
 // Start at top of stack and look for elements that require attention
@@ -62,6 +70,7 @@ func (w *Waiter) setupTopOfStack(s []string, i int) []string {
 	return s
 }
 
+// flip swaps symbols and reverses slice
 func (w *Waiter) flip(s []string) []string {
 	// Update flipCount
 	w.flipCount++
@@ -74,6 +83,12 @@ func (w *Waiter) flip(s []string) []string {
 			s[i] = "-"
 		}
 	}
+	s = w.reverse(s)
+	return s
+}
+
+// reverse reverses the order of the elements in the slice
+func (w *Waiter) reverse(s []string) []string {
 	// Reverse slice
 	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
 		s[i], s[j] = s[j], s[i]
@@ -81,6 +96,7 @@ func (w *Waiter) flip(s []string) []string {
 	return s
 }
 
+// appendTo helps appends two slices together
 func (w *Waiter) appendTo(s1 []string, s2 []string) []string {
 	s := append(s1, s2...)
 	return s
