@@ -18,14 +18,14 @@ func NewWaiter() *Waiter {
 
 // Organize flips all pancakes to be happy face up adhearing to physical bounds of pancake flipping
 func (w *Waiter) Organize(s string) (int, []string, error) {
+	w.flipCount = 0
+	var err error
+
 	// Convert string to slice for convience
 	arry := strings.Split(s, "")
 
 	// Make sure the data is handled right to left. (backwards to how I think about it)
 	arry = w.reverse(arry)
-
-	w.flipCount = 0
-	var err error
 
 	// Starting at base of stack look for elements that require attention
 	// base of stack is thought of as the start of the slice
